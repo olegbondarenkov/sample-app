@@ -1,0 +1,27 @@
+pipelineConfig:
+  pipelines:
+    release:
+      pipeline:
+        agent:
+          label: jenkins-jx-agent
+        stages:
+          - name: build
+            steps:
+              - name: make build
+                command: make build
+          - name: test
+            steps:
+              - name: make test
+                command: make test
+          - name: docker build
+            steps:
+              - name: make docker-build
+                command: make docker-build
+          - name: docker push
+            steps:
+              - name: make docker-push
+                command: make docker-push
+          - name: promote
+            steps:
+              - name: jx promote
+                command: jx promote --version $VERSION
